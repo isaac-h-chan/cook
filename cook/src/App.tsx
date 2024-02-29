@@ -1,23 +1,21 @@
 import { useState } from 'react'
-import './App.css'
+import './index.css'
 import Navbar from './Navbar/Navbar'
-import LeftSideBar from './LeftSideBar/LeftSideBar'
 import Feed from './Feed/Feed'
-import RightSideBar from './RightSideBar/RightSideBar'
 
 const App = () => {
   const posts = Array();
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 100; i++) {
     posts.push({title: "post " + (i + 1)});
   }
   console.log(posts);
   return (
     <>
-      <Navbar />
-      <div className="flex justify-between">
-        <LeftSideBar />
-        <Feed posts={posts}/>
-        <RightSideBar />
+      <div className='flex flex-row h-full'>
+        <div className='w-1/5'>
+          <Navbar className="fixed border-r border-red-950 h-full w-1/5"/>
+        </div>
+        <Feed className='flex flex-col m-auto gap-10' posts={posts}/>
       </div>
     </>
   )

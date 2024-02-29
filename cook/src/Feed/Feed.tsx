@@ -7,13 +7,14 @@ type PostData = {
 
 type FeedProps = {
   posts: PostData[];
+  className: string;
 };
 
-const Feed: React.FC<FeedProps>= ({ posts }) => {
+const Feed: React.FC<FeedProps>= ({ posts, className }) => {
   return (
-    <div className="flex flex-col">
-      <div>Feed</div>
-      <div>
+    <div className={className}>
+      <h3>Feed</h3>
+      <div className={className}>
         {posts.map((post: PostData) => (
           <Post title={post.title} />
         ))}

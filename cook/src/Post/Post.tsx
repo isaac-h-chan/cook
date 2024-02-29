@@ -6,7 +6,9 @@ type PostProps = {
 
 const Post: React.FC<PostProps> = ({ title }) => {
     return (
-        <div>{ title }</div>
+        <div className='w-[35rem] h-[35rem] border border-red-900'>
+            { title }
+        </div>
     )
 }
 
