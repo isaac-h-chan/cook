@@ -1,12 +1,11 @@
-import { useState } from 'react'
 import './index.css'
-import Navbar from './Navbar/Navbar'
-import Feed from './Feed/Feed'
+import Navbar from './components/Navbar/Navbar'
+import Feed from './components/Feed/Feed'
 
 const App = () => {
   const posts = Array();
   for (let i = 0; i < 100; i++) {
-    posts.push({title: "post " + (i + 1)});
+    posts.push({title: "post " + (i + 1), body: "lorem ipsum dolor iset"});
   }
   console.log(posts);
   return (
