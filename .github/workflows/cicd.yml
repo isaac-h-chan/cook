@@ -34,5 +34,5 @@ jobs:
           docker pull ${{ secrets.DOCKER_USERNAME }}/cook-frontend:latest
       - name: Run Docker Images
         run: |
-          docker run -d -p 4000:4000 --cook-backend ${{ secrets.DOCKER_USERNAME }}/cook-backend:latest
-          docker run -d -p 3000:3000 --cook-frontend ${{ secrets.DOCKER_USERNAME }}/cook-frontend:latest
+          docker run -d -p 4000:4000 --name cook-backend ${{ secrets.DOCKER_USERNAME }}/cook-backend:latest
+          docker run -d -p 3000:3000 --name cook-frontend ${{ secrets.DOCKER_USERNAME }}/cook-frontend:latest
