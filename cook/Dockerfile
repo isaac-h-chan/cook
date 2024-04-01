@@ -4,4 +4,7 @@ COPY package.json .
 RUN npm install
 COPY . .
 EXPOSE 3000
-CMD [ "npm", "run", "build" ]
+RUN npm run build
+WORKDIR /frontend/dist/
+CMD [ "npx", "vite", "--port", "3000" ]
+
