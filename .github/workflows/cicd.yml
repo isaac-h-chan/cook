@@ -38,6 +38,7 @@ jobs:
         run: |
           docker pull ${{ secrets.DOCKER_USERNAME }}/cook-backend:latest
           docker pull ${{ secrets.DOCKER_USERNAME }}/cook-frontend:latest
+          docker image prune
       - name: Run Docker Images
         run: |
           docker run -d -p 4000:4000 --name cook-backend ${{ secrets.DOCKER_USERNAME }}/cook-backend:latest
