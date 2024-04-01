@@ -29,11 +29,11 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Stop and Remove Existing Containers
-      run: |
-        docker stop cook-backend || true
-        docker stop cook-frontend || true
-        docker rm cook-backend || true
-        docker rm cook-frontend || true
+        run: |
+          docker stop cook-backend || true
+          docker stop cook-frontend || true
+          docker rm cook-backend || true
+          docker rm cook-frontend || true
       - name: Pull Docker Images
         run: |
           docker pull ${{ secrets.DOCKER_USERNAME }}/cook-backend:latest
