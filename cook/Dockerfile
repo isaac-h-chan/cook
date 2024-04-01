@@ -6,5 +6,5 @@ COPY . .
 EXPOSE 3000
 RUN npm run build
 WORKDIR /frontend/dist/
-CMD [ "npx", "vite", "--port", "3000" ]
+CMD [ "npx", "vite", "--host", "0.0.0.0", "--port", "3000" ]
 
