@@ -1,35 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './index.css'
+import Navbar from './components/Navbar/Navbar'
+import Feed from './components/Feed/Feed'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
+  const posts = Array();
+  for (let i = 0; i < 100; i++) {
+    posts.push({title: "post " + (i + 1), body: "lorem ipsum dolor iset"});
+  }
+  console.log(posts);
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className='flex flex-row h-full'>
+        <div className='w-1/5'>
+          <Navbar className="fixed border-r border-red-950 h-full w-1/5"/>
+        </div>
+        <Feed className='flex flex-col m-auto gap-10' posts={posts}/>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
 
-export default App
+export default App;
