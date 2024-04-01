@@ -28,11 +28,17 @@ jobs:
     needs: Build
     runs-on: self-hosted
     steps:
+      - name: Stop and Remove Existing Containers
+      run: |
+        docker stop cook-backend || true
+        docker stop cook-frontend || true
+        docker rm cook-backend || true
+        docker rm cook-frontend || true
       - name: Pull Docker Images
         run: |
           docker pull ${{ secrets.DOCKER_USERNAME }}/cook-backend:latest
           docker pull ${{ secrets.DOCKER_USERNAME }}/cook-frontend:latest
       - name: Run Docker Images
         run: |
-          docker run --rm -d -p 4000:4000 --name cook-backend ${{ secrets.DOCKER_USERNAME }}/cook-backend:latest
-          docker run --rm -d -p 3000:3000 --name cook-frontend ${{ secrets.DOCKER_USERNAME }}/cook-frontend:latest
+          docker run -d -p 4000:4000 --name cook-backend ${{ secrets.DOCKER_USERNAME }}/cook-backend:latest
+          docker run -d -p 3000:3000 --name cook-frontend ${{ secrets.DOCKER_USERNAME }}/cook-frontend:latest
