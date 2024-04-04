@@ -7,27 +7,118 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String   @db.VarChar(255)
-  createdAt DateTime @default(now()) @db.Timestamp(6)
-  content   String?
-  published Boolean  @default(false)
+model post {
+  id        Int         @id @default(autoincrement())
+  createdAt DateTime    @default(now()) @db.Timestamp(6)
+
+  isCrave   Boolean
+  title     String      @db.VarChar(300)
+  content   String?     @db.VarChar(3000)
+
+  published Boolean     @default(false)
+
+  author   profile     @relation(fields: [authorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   authorId  Int
-  user      User     @relation(fields: [authorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  comments comment[]
+  images   postImage[]
 }
 
-model Profile {
+model profile {
   id     Int     @id @default(autoincrement())
   bio    String?
+  
+  user   user    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   userId Int     @unique
-  user   User    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  zipcode     Int
+
+  following   connection[]        @relation("following")
+  follower    connection[]        @relation("follower")
+
+  posts       post[]
+  chats       chat[]
+  messages    message[]
+
+  picture     profilePicture?
 }
 
-model User {
-  id      Int      @id @default(autoincrement())
-  name    String?  @db.VarChar(255)
-  email   String   @unique @db.VarChar(255)
-  posts   Post[]
-  profile Profile?
+model user {
+  id          Int                 @id @default(autoincrement())
+  name        String?             @db.VarChar(100)
+  email       String              @unique @db.VarChar(255)
+  password    String              @db.VarChar(255)
+
+  profile     profile?
+
+  payer       transaction[]       @relation("payer")
+  payee       transaction[]       @relation("payee")
+}
+
+model comment {
+  id      Int         @id @default(autoincrement())
+  date    DateTime    @default(now())
+  content    String
+
+  post    post    @relation(fields: [postId], references: [id])
+  postId  Int
+}
+
+model transaction {
+  id        Int       @id @default(autoincrement())
+  amount    Decimal
+  date      DateTime  @default(now())
+  refunded  Boolean   @default(false)
+
+  payer     user      @relation("payer", fields: [payerId], references: [id])
+  payerId   Int
+
+  payee     user      @relation("payee", fields: [payeeId], references: [id])
+  payeeId   Int
+}
+
+model connection {
+  id            Int         @id @default(autoincrement())
+  
+  following     profile     @relation("following", fields: [followingId], references: [id])
+  followingId   Int
+
+  follower      profile     @relation("follower", fields: [followerId], references: [id])
+  followerId    Int
+
+  @@unique([followingId, followerId])
+}
+
+model chat {
+  id        Int       @id @default(autoincrement())
+  members   profile[]
+  dm        Boolean   @default(true)
+  messages  message[]
+}
+
+model message {
+  id          Int       @id @default(autoincrement())
+
+  date        DateTime  @default(now())
+  content     String    @db.VarChar(1000)
+
+  author      profile      @relation(fields: [authorId], references: [id])
+  authorId    Int
+
+  chat        chat      @relation(fields: [chatId], references: [id])
+  chatId      Int
+}
+
+model profilePicture {
+  id          Int       @id @default(autoincrement())
+  profile     profile   @relation(fields: [profileId], references: [id])
+  profileId   Int       @unique
+  url         String    @db.VarChar(1000)
+}
+
+model postImage {
+  id          Int       @id @default(autoincrement())
+  post        post      @relation(fields: [postId], references: [id])
+  postId      Int       @unique
+  url         String    @db.VarChar(1000)
 }
