@@ -43,6 +43,6 @@ jobs:
           docker image prune -f
       - name: Run Docker Images
         run: |
-          docker run -d --network ${{ secrets.DOCKER_NETWORK }} -p 4000:4000 -e ${{ secrets.DATABASE_URL }} --name cook-backend ${{ secrets.DOCKER_USERNAME }}/cook-backend:latest
+          docker run -d --network ${{ secrets.DOCKER_NETWORK }} -p 4000:4000 -e DATABASE_URL=${{ secrets.DATABASE_URL }} --name cook-backend ${{ secrets.DOCKER_USERNAME }}/cook-backend:latest
           docker run -d --network ${{ secrets.DOCKER_NETWORK }} -p 3000:3000 --name cook-frontend ${{ secrets.DOCKER_USERNAME }}/cook-frontend:latest
           
