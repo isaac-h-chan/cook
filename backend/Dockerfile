@@ -3,5 +3,6 @@ WORKDIR /backend
 COPY package.json .
 RUN npm install
 COPY . .
+RUN npx prisma generate
 EXPOSE 4000
-CMD [ "npm", "run", "start" ]
+CMD [ "sh", "-c", "npx prisma migrate deploy; npm run start" ]

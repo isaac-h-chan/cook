@@ -19,7 +19,7 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/cook-backend ./backend/
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/cook-frontend ./cook/ 
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/cook-frontend ./cook/
       - name: Publish on Docker Hub
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/cook-backend:latest
@@ -32,8 +32,10 @@ jobs:
         run: |
           docker stop cook-backend || true
           docker stop cook-frontend || true
+          docker stop cook-database || true
           docker rm cook-backend || true
           docker rm cook-frontend || true
+          docker rm cook-database ||true
       - name: Pull Docker Images
         run: |
           docker pull ${{ secrets.DOCKER_USERNAME }}/cook-backend:latest
@@ -41,5 +43,6 @@ jobs:
           docker image prune -f
       - name: Run Docker Images
         run: |
-          docker run -d -p 4000:4000 --name cook-backend ${{ secrets.DOCKER_USERNAME }}/cook-backend:latest
-          docker run -d -p 3000:3000 --name cook-frontend ${{ secrets.DOCKER_USERNAME }}/cook-frontend:latest
+          docker run -d --network ${{ secrets.DOCKER_NETWORK }} -p 4000:4000 -e ${{ secrets.DATABASE_URL }} --name cook-backend ${{ secrets.DOCKER_USERNAME }}/cook-backend:latest
+          docker run -d --network ${{ secrets.DOCKER_NETWORK }} -p 3000:3000 --name cook-frontend ${{ secrets.DOCKER_USERNAME }}/cook-frontend:latest
+          
