@@ -1,11 +1,9 @@
-import { PrismaClient } from "@prisma/client";
 import express from "express"
 import auth_router from "./auth/auth.js"
+import primsa from "./db/db_client.js"
 
 const app = express();
 const port = 4000;
-
-const prisma = new PrismaClient();
 
 app.get('/', (req, res) => {
     res.send('Hello World')
